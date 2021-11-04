@@ -30,7 +30,7 @@ namespace NardiSharp
                 {
                     if (i == 0)
                     { // first row
-                        field[i, j] = j % 2 == 0 ? Convert.ToChar(j + 97) : field[i, j] = ' ';
+                        field[i, j] = j % 2 == 0 ? Convert.ToChar(j + 65) : field[i, j] = ' ';
                     }
                     else if (i == 1 || i == Height - 2)
                     { //2nd + predposledniy
@@ -38,11 +38,11 @@ namespace NardiSharp
                     }
                     else if (i == Height - 1)
                     { //last row
-                        field[i, j] = j % 2 == 0 ? Convert.ToChar(j + 109) : field[i, j] = ' ';
+                        field[i, j] = j % 2 == 0 ? Convert.ToChar(j + 97) : field[i, j] = ' ';
                     }
                     else
                     {
-                        if (j == 0 || j == Length - 1 /*|| j == Length % 2 == 0 ? Length / 2 : Length / 2 + 1*/) // this last satan should always draw in the center
+                        if (j == 1 || j == Length - 2 || IsMiddle(j)) // this last satan should always draw in the center
                         {
                             field[i, j] = '|';
                         } 
@@ -75,5 +75,7 @@ namespace NardiSharp
                 Console.WriteLine();
             }
         }
+
+        private bool IsMiddle(int j) => ((Length % 2 == 0 && j == Length / 2) || (Length % 2 == 1 && j == (Length / 2) + 1));
     }
 }
