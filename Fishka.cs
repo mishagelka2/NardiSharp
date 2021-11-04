@@ -8,6 +8,16 @@ namespace NardiSharp
 {
     class Fishka
     {
+        private int[,] coordinates;
 
+        public Fishka(int maxHeight, int maxLength)
+        {
+            coordinates = new int[maxHeight, maxLength];
+        }
+
+        public void Move()
+        {
+
+        }
     }
 }

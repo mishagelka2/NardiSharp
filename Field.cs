@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 
 namespace NardiSharp
 {
-    public class Field
+    class Field
     {
         public int Height { get; private set; }
         public int Length { get; private set; }
+
+        private List<Fishka> whiteFishkas;
+        private List<Fishka> blackFishkas;
 
         private char[,] field;
 
@@ -18,53 +21,28 @@ namespace NardiSharp
             Height = h;
             Length = l;
             field = new char[Height, Length];
-            FillField();
-            DrawField();
+            FillFieldInit();
+            DrawFiskas();
+            RefreshField("Start of the game, P1 throws kubicks");
         }
 
-        private void FillField()
+        private void FillFieldInit()
         {
-            for (int i = 0; i < Height; i++)
-            {
-                for (int j = 0; j < Length; j++)
-                {
-                    if (i == 0)
-                    { // first row
-                        field[i, j] = j % 2 == 0 ? Convert.ToChar(j + 65) : field[i, j] = ' ';
-                    }
-                    else if (i == 1 || i == Height - 2)
-                    { //2nd + predposledniy
-                        field[i, j] = '-';
-                    }
-                    else if (i == Height - 1)
-                    { //last row
-                        field[i, j] = j % 2 == 0 ? Convert.ToChar(j + 97) : field[i, j] = ' ';
-                    }
-                    else
-                    {
-                        if (j == 1 || j == Length - 2 || IsMiddle(j)) // this last satan should always draw in the center
-                        {
-                            field[i, j] = '|';
-                        } 
-                        else
-                        {
-                            field[i, j] = ' ';
-                        }
-
-                        if ((i > 1 && i < 5) || (i > 11 && i < 15) && j % 2 == 0)
-                        { // drawing borders for slots for fishkas
-                            field[i, j] = '|';
-                        }
-                        else
-                        {
-                            field[i, j] = ' ';
-                        }
-                    }
-                }
-            }
+            FillLetters(0, 'A');
+            FillStraightLine(1);
+            FillMainPart(2, Height - 3);
+            FillStraightLine(Height - 2);
+            FillLetters(Height - 1, 'a');
         }
 
-        private void DrawField()
+        public void RefreshField(string incomingMessage = "")
+        {
+            DrawField();
+            Console.WriteLine();
+            Console.WriteLine(incomingMessage);
+        }
+
+        public void DrawField()
         {
             for (int i = 0; i < Height; i++)
             {
@@ -76,6 +54,72 @@ namespace NardiSharp
             }
         }
 
-        private bool IsMiddle(int j) => ((Length % 2 == 0 && j == Length / 2) || (Length % 2 == 1 && j == (Length / 2) + 1));
+        private void FillStraightLine(int x)
+        {
+            for(int i = 0; i < Length; i++)
+            {
+                field[x, i] = '-';
+            }
+        }
+
+        private void FillLetters(int x, char startLetter)
+        {
+            for(int i = 1; i < Length; i++)
+            {
+                if (i % 2 == 0)
+                    field[x, i] = Convert.ToChar(startLetter + i);
+                else
+                    field[x, i] = ' ';
+            }
+           
+        }
+
+        private void FillMainPart(int top, int bottom)
+        {
+            int middle = Length % 2 == 0 ? Length / 2 : (Length - 1) / 2;
+            for(int i = top; i <= bottom; i++)
+            {
+                for(int j = 0; j < Length; j++)
+                {
+                    if(j % 2 == 0 && (i <= top + 2 || i >= bottom - 2))
+                    {
+                        field[i, j] = '|';
+                    }
+                    else if (j == 0 || j == Length - 1)
+                    {
+                        field[i, j] = '|';
+                    }
+                    else if (j == middle)
+                    {
+                        field[i, j] = '|';
+                    }
+                    else
+                    {
+                        field[i, j] = ' ';
+                    }
+                }
+            }
+        }
+
+        public char GetFieldValue(int x, int y) => field[x, y]; // or private
+
+
+        public void ReadIncomingValues(/*out int x, out int y*/)
+        {
+            string valuesGot = Console.ReadLine();
+
+        }
+
+        public void DrawFiskas()
+        {
+
+        }
+
+        private void FillEmptyFieldWithStart()
+        {
+
+        }
+
+
     }
 }
