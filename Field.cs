@@ -8,6 +8,7 @@ namespace NardiSharp
 {
     class Field
     {
+        public bool GameOver { get; set; }
 
         enum PlayerActions
         {
@@ -33,6 +34,7 @@ namespace NardiSharp
             FillFieldInit();
             DrawFiskas();
             RefreshField("Start of the game, P1 throws kubicks");
+            GameOver = true;
         }
 
         private void FillFieldInit()
@@ -96,15 +98,7 @@ namespace NardiSharp
             {
                 for(int j = 0; j < Length; j++)
                 {
-                    if(j % 2 == 0 && (i <= top + 2 || i >= bottom - 2))
-                    {
-                        field[i, j] = '|';
-                    }
-                    else if (j == 0 || j == Length - 1)
-                    {
-                        field[i, j] = '|';
-                    }
-                    else if (j == middle)
+                    if ((j % 2 == 0 && (i <= top + 2 || i >= bottom - 2)) || j == 0 || j == Length - 1 || j == middle)
                     {
                         field[i, j] = '|';
                     }
@@ -145,6 +139,7 @@ namespace NardiSharp
         {
 
         }
+
 
 
     }

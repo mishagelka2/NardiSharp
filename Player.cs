@@ -10,6 +10,7 @@ namespace NardiSharp
     {
         private string name;
         public string Name { get { return name; } set { name = value; } }
+        public bool TakesTurn { get; set; }
 
         public Player(string n)
         {
