@@ -9,6 +9,7 @@ namespace NardiSharp
     class Fishka
     {
         private int[,] coordinates;
+        private char letter;
 
         public Fishka(int maxHeight, int maxLength)
         {

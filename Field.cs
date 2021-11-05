@@ -8,11 +8,20 @@ namespace NardiSharp
 {
     class Field
     {
+
+        enum PlayerActions
+        {
+            ThrowKubiks = 1,
+            P1Moves = 2,
+            P2Moves = 3
+        }
+
         public int Height { get; private set; }
         public int Length { get; private set; }
 
         private List<Fishka> whiteFishkas;
         private List<Fishka> blackFishkas;
+        private List<Column> columns;
 
         private char[,] field;
 
@@ -28,6 +37,7 @@ namespace NardiSharp
 
         private void FillFieldInit()
         {
+            columns = new List<Column>();
             FillLetters(0, 'A');
             FillStraightLine(1);
             FillMainPart(2, Height - 3);
@@ -44,6 +54,7 @@ namespace NardiSharp
 
         public void DrawField()
         {
+            Console.Clear();
             for (int i = 0; i < Height; i++)
             {
                 for (int j = 0; j < Length; j++)
@@ -64,10 +75,14 @@ namespace NardiSharp
 
         private void FillLetters(int x, char startLetter)
         {
-            for(int i = 1; i < Length; i++)
+            for(int i = 0; i < Length; i++)
             {
-                if (i % 2 == 0)
-                    field[x, i] = Convert.ToChar(startLetter + i);
+                if (i % 2 == 1)
+                {
+                    char letter = Convert.ToChar(startLetter + i);
+                    field[x, i] = letter;
+                    SetColumn(letter, i);
+                }
                 else
                     field[x, i] = ' ';
             }
@@ -107,13 +122,24 @@ namespace NardiSharp
         public void ReadIncomingValues(/*out int x, out int y*/)
         {
             string valuesGot = Console.ReadLine();
+            switch (valuesGot)
+            {
 
+            }
         }
 
         public void DrawFiskas()
         {
 
         }
+
+        private void SetColumn(char letter, int positionOnY)
+        {
+            Column newColumn = new Column(letter, positionOnY);
+            columns.Add(newColumn);
+        }
+
+        public Column GetColumnByLetter(char letter) => columns.First(x => x.ColumnLetter == letter);
 
         private void FillEmptyFieldWithStart()
         {
